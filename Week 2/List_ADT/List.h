@@ -32,7 +32,7 @@ public:
 
     void remove(int index);
 
-    T get(int index);
+    T operator[] (int index);
 
     bool isEmpty();
 
@@ -42,16 +42,7 @@ public:
 
     void replace(int index, T item);
     
-    bool in_range(int index);
-    
-    T& begin();
-    
-    T& end();
-    
-    const T& begin() const;
-    
-    const T& end() const;
-    
+    bool in_range(int index);   
     
 private:
     T items[MAX_SIZE];
