@@ -67,7 +67,22 @@ template <class T> void List<T>::insertHead(int index, Node<T>*& current) {
     next->previous = current;
 }
 
-template <class T> void List<T>::insertTail(int index, Node<T>*& node) {
+template <class T> void List<T>::insertTail(int index, Node<T>*& current) {
+    Node<T>* previous = nullptr;
+    Node<T>* next = tail;
     
+    for (int i = size; i > index; i--) {
+        previous = next;
+        next = next->previous;
+    } 
+    
+    current->previous = next;
+    current->next = previous;
+    
+    previous->previous = current;
+    next->next = next;
 }
 
+template <class T> void List<T>::remove(int index) {
+    
+}
