@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
     List<string> names {};
-    cout << names.add("Annie");
+    names.add("Annie");
     names.add("Jacky");
     names.add("Wendy");
     
