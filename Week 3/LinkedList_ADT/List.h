@@ -8,18 +8,17 @@ using namespace std;
 
 template <class T>
 struct Node {
+            
+    T item;
     
     Node* next;
     Node* previous;
     
-    T item;
-    
-    Node(T item) : next {nullptr}, previous {nullptr}, item {item} {
+    Node(T item) : item {item}, next {nullptr}, previous {nullptr} {
         
     }
     
 };
-
 
 template <class T>
 class List {
@@ -45,7 +44,11 @@ public:
 private:
     void insertHead(int index, Node<T>*& current);
     
-    void removeHead(int index);
+    void insertTail(int index, Node<T>*& current);
+    
+    Node<T>* removeHead(int index);
+    
+    Node<T>* removeTail(int index);
     
     Node<T>* head;
     Node<T>* tail;
@@ -54,7 +57,7 @@ private:
 };
 
 
-template <class T> List<T>::List() : head {nullptr}, tail {nullptr}, size {0} {
+template <class T> List<T>::List() : size {0}, head {nullptr}, tail {nullptr} {
     
 }
 
@@ -81,9 +84,15 @@ template <class T> bool List<T>::add(int index, T item) {
     Node<T>* current = new Node<T> {item};
     if (size == 0) {
         head = current;
+        tail = current;
+        head->next = current;
+        tail->previous = current;
+        
+    } else if (index <= size / 2) {
+        insertHead(index, current);
         
     } else {
-        insertHead(index, current);
+        insertTail(index, current);
     }
     size++;
     
@@ -91,13 +100,15 @@ template <class T> bool List<T>::add(int index, T item) {
 }
 
 template <class T> void List<T>::insertHead(int index, Node<T>*& current) {
-    Node<T>* previous = head;
-    Node<T>* next = nullptr;
-
+    Node<T>* previous = nullptr;
+    Node<T>* next = head;
+    
     for (int i = 0; i < index; i++) {
-        next = previous->next;
+        previous = next;
+        next = next->next;
     }
     
+    current->previous = previous;
     current->next = next;
     
     if (previous != nullptr) {
@@ -107,6 +118,27 @@ template <class T> void List<T>::insertHead(int index, Node<T>*& current) {
     }
     next->previous = current;
 }
+
+template <class T> void List<T>::insertTail(int index, Node<T>*& current) {
+    Node<T>* previous = nullptr;
+    Node<T>* next = tail;
+    
+    for (int i = size; i > index; i--) {
+        previous = next;
+        next = next->previous;
+    } 
+    
+    current->previous = next;
+    current->next = previous;
+    
+    if (previous != nullptr) {
+        previous->previous = current;
+    } else {
+        tail = current;
+    }
+    next->next = next;
+}
+
 
 template <class T> void List<T>::remove(int index) {
     if (index < 0 || index >= size) {
@@ -133,6 +165,44 @@ template <class T> void List<T>::remove(int index) {
     size--;
 }
 
+template <class T> Node<T>* List<T>::removeHead(int index) {
+    Node<T>* previous = nullptr;
+    Node<T>* current = head;
+    
+    for (int i = 0; i < index; i++) {
+        previous = current;
+        current = current->next;
+    }
+    
+    if (previous != nullptr) {
+        previous->next = current->next;
+    } else {
+        head = current->next;
+    }
+    
+    current->next->previous = previous;
+    
+    return current;
+}
+
+template <class T> Node<T>* List<T>::removeTail(int index) {
+    Node<T>* previous = nullptr;
+    Node<T>* current = tail;
+    
+    for (int i = size; i > index; i--) {
+        previous = current;
+        current = current->previous;
+    } 
+    
+    if (previous != nullptr) {
+        previous->previous = current->previous;
+    } else {
+        tail = current->previous;
+    }
+    current->previous->next = current;
+    
+    return current;
+}
 
 
 template <class T> T& List<T>::operator[] (int index) {
@@ -161,7 +231,8 @@ template <class T> int List<T>::length() const {
 template <class T> void List<T>::print() const {
     Node<T>* node = head;
     while (node != nullptr) {
-        cout << node->item << endl;
+//        cout << node->item << endl;
+        node = node->next;
     }
 }
 
