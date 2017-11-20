@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   Stack.h
- * Author: Karus Labs
- *
- * Created on November 9, 2017, 2:21 PM
- */
-
 #ifndef STACK_H
 #define STACK_H
 
