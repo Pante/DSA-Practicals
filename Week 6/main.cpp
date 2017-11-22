@@ -6,15 +6,18 @@ using namespace std;
 
 
 long power(int a, int n) {
-    if (n <= 0) {
+    if (n < 0) {
         throw out_of_range("n must be a positive integer");
+        
+    } else if (n == 0) {
+        return 1;
     }
     
     if (n == 1) {
         return a;
         
     } else {
-        return power(a, n - 1);
+        return a * power(a, n - 1);
     }
 }
 
