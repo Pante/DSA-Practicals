@@ -12,10 +12,10 @@ namespace iterative {
     int search(int array[], int size, int target) {
         for (int i = 0; i < size; i++) {
             comparisons++;
-            if (i == target) {
+            if (array[i] == target) {
                 return i;
 
-            } else if (i > target) {
+            } else if (array[i] > target) {
                 return -1;
             }
         }
