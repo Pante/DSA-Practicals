@@ -10,8 +10,8 @@ using namespace std;
 template <class T>
 struct Node {
     
-    Node* previous;
-    Node* next;
+    Node<T>* previous;
+    Node<T>* next;
     T item;
     
     
